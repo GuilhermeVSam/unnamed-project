@@ -8,13 +8,16 @@ WORKDIR /app
 COPY gradlew build.gradle settings.gradle /app/
 COPY gradle /app/gradle
 
-# Download dependencies
+# Grant execution permissions for the Gradle wrapper
+RUN chmod +x gradlew
+
+# Download dependencies and build the application
 RUN ./gradlew build -x test --no-daemon
 
 # Copy the source code
 COPY src /app/src
 
-# Build the application
+# Run the build to create the application JAR
 RUN ./gradlew bootJar --no-daemon
 
 # Production image with Java 21
@@ -31,4 +34,3 @@ EXPOSE 8080
 
 # Run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
