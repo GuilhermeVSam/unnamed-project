@@ -1,36 +1,34 @@
-# Use an official OpenJDK runtime with Java 21
+# Etapa de build
 FROM openjdk:21-jdk-slim AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy Gradle wrapper and configuration files
+# Copia o wrapper e arquivos de configuração do Gradle
 COPY gradlew build.gradle settings.gradle /app/
 COPY gradle /app/gradle
 
-# Grant execution permissions for the Gradle wrapper
+# Concede permissão ao Gradle Wrapper
 RUN chmod +x gradlew
 
-# Download dependencies and build the application
+# Define uma opção de limite de memória para o Gradle
+ENV GRADLE_OPTS="-Xmx512m"
+
+# Baixa as dependências e compila a aplicação
 RUN ./gradlew build -x test --no-daemon
 
-# Copy the source code
+# Copia o código-fonte e realiza o build final
 COPY src /app/src
-
-# Run the build to create the application JAR
 RUN ./gradlew bootJar --no-daemon
 
-# Production image with Java 21
+# Etapa de produção
 FROM openjdk:21-jdk-slim
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the JAR file from the build stage
+# Copia o JAR gerado na etapa de build
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Expose the port
 EXPOSE 8080
 
-# Run the Spring Boot application
+# Executa a aplicação Spring Boot
 ENTRYPOINT ["java", "-jar", "app.jar"]
