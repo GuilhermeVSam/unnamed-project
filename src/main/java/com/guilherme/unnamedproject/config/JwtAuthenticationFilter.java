@@ -43,6 +43,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         // Skip JWT validation for signup
         System.out.println("Request path: " + request.getServletPath());
+        if (request.getServletPath().equals("/*")) {
+            System.out.println("Skipping JWT validation for signup");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (request.getServletPath().equals("/auth/signup")) {
             System.out.println("Skipping JWT validation for signup");

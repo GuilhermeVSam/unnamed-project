@@ -13,14 +13,32 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    
-    @GetMapping("/greeting")
-	public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return "Hello World!";
-	}
+    @GetMapping("/users")
+    public Iterable<User> getUsers(){
+        return userRepository.findAll();
+    }
 
-    @PostMapping("/addUser")
-    public void addUser(@RequestBody User user) {
-        userRepository.save(user);
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable Long id){
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user){
+        return userRepository.save(user);
+    }
+
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user){
+        User userToUpdate = userRepository.findById(id).orElseThrow();
+        userToUpdate.setName(user.getName());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setUsername(user.getUsername());
+        return userRepository.save(userToUpdate);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userRepository.deleteById(id);
     }
 }

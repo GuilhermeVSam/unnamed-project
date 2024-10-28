@@ -1,31 +1,86 @@
 package com.guilherme.unnamedproject.objects;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Movie extends Content{
-    List<String> whereToFind;
-    List<String> oscar;
-    
+public class Movie{
+    @JsonProperty("Title")
+    String title;
+    @JsonProperty("Director")
+    String director;
+    @JsonProperty("Plot")
+    String plot;
+    @JsonProperty("Year")
+    int year;
+    @JsonProperty("Genre")
+    String genre;
+    @JsonProperty("imdbRating")
+    String rating;
+    @JsonProperty("Awards")
+    String awards;    
 
-    public Movie(String name, String autor, String description, int year, List<String> genre, String rating, List<String> whereToFind, List<String> oscar) {
-        super(name, autor, description, year, genre, rating);
-        this.whereToFind = whereToFind;
-        this.oscar = oscar;
+    public Movie(String title, String director, String description, int year, String genre, String rating, String awards) {
+        this.title = title;
+        this.director = director;
+        this.plot = description;
+        this.year = year;
+        this.genre = genre;
+        this.rating = rating;
+        this.awards = awards;
     }
 
-    public List<String> getWhereToFind() {
-        return whereToFind;
-    }
-    
-    public List<String> getOscar() {
-        return oscar;
+    public String getTitle() {
+        return title;
     }
 
-    public void setWhereToFind(List<String> whereToFind) {
-        this.whereToFind = whereToFind;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setOscar(List<String> oscar) {
-        this.oscar = oscar;
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getPlot() {
+        return plot;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
     }
 }
